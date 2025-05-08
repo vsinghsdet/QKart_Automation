@@ -51,6 +51,21 @@ public class Home {
     @FindBy(xpath = "//*[@class='MuiBox-root css-1gjj37g']/div[1]")
     List<WebElement> cartContents;
 
+    @FindBy(xpath = "//*[text()='Contact us']")
+    WebElement contactUsLink;
+
+    @FindBy(xpath = "//input[@placeholder='Name']")
+    WebElement nameInputField;
+
+    @FindBy(xpath = "//input[@placeholder='Email']")
+    WebElement emailInputField;
+
+    @FindBy(xpath = "//input[@placeholder='Message']")
+    WebElement messageInputField;
+
+    @FindBy(xpath = "//button[text()=' Contact Now']")
+    WebElement contactNowButton;
+
     public Home(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 15), this);
@@ -197,6 +212,16 @@ public class Home {
             System.out.println("Exception while verifying cart contents: " + e.getMessage());
             return false;
         }
+    }
+
+    public Boolean verifyContactUsDialogBox(WebDriver driver, String name, String email, String message){
+        Wrappers.click(driver, contactUsLink);
+        Wrappers.sendKeys(driver, nameInputField, name);
+        Wrappers.sendKeys(driver, emailInputField, email);
+        Wrappers.sendKeys(driver, messageInputField, message);
+        Wrappers.click(driver, contactNowButton);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        return wait.until(ExpectedConditions.invisibilityOf(contactNowButton));
     }
 
 

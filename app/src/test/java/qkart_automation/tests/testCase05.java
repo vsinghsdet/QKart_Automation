@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -26,6 +27,7 @@ public class testCase05 extends BaseTest {
     public void TestCase05(String productNameToSearchFor, String productNameToSearchFor2,
             String addressDetails) throws InterruptedException {
         Boolean status;
+        SoftAssert softAssert = new SoftAssert();
         WebDriver driver = DriverFactory.getDriver();
         logStatus("Start TestCase", "Test Case 5: Verify Happy Flow of buying products",
                 "DONE");
@@ -36,7 +38,7 @@ public class testCase05 extends BaseTest {
 
         // Register a new user
         status = registration.registerUser("testUser", "abc@123", true);
-        Assert.assertTrue(status,
+        softAssert.assertTrue(status,
                 "Unable to register, Test Case Failure. Happy Flow Test Failed");
 
         // Save the username of the newly registered user
@@ -48,7 +50,7 @@ public class testCase05 extends BaseTest {
 
         // Login with the newly registered user's credentials
         status = login.performLogin(lastGeneratedUserName, "abc@123");
-        Assert.assertTrue(status, "Not able to login, Test Case 5: Happy Flow Test Failed");
+        softAssert.assertTrue(status, "Not able to login, Test Case 5: Happy Flow Test Failed");
 
         // Go to the home page
         Home homePage = new Home(driver);
@@ -86,7 +88,8 @@ public class testCase05 extends BaseTest {
 
         logStatus("End TestCase", "Test Case 5: Happy Flow Test Completed : ",
                 status ? "PASS" : "FAIL");
-
+        
+        softAssert.assertAll();
     }
 
 }

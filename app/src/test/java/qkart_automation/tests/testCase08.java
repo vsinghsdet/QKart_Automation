@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -25,7 +26,7 @@ public class testCase08 extends BaseTest {
     public void TestCase08() throws InterruptedException {
         Boolean status = false;
         WebDriver driver = DriverFactory.getDriver();
-
+        SoftAssert softAssert = new SoftAssert();
         logStatus("Start TestCase",
                 "Test Case 8: Verify that product added to cart is available when a new tab is opened",
                 "DONE");
@@ -34,20 +35,20 @@ public class testCase08 extends BaseTest {
         Register registration = new Register(driver);
         registration.navigateToRegisterPage();
         status = registration.registerUser("testUser", "abc@123", true);
-        Assert.assertTrue(status, "Test Case 8: Registration : Failed");
+        softAssert.assertTrue(status, "Test Case 8: Registration : Failed");
         lastGeneratedUserName = registration.lastGeneratedUsername;
 
         Login login = new Login(driver);
         login.navigateToLoginPage();
         status = login.performLogin(lastGeneratedUserName, "abc@123");
-        Assert.assertTrue(status, "Test Case 8:  Login : Failed");
+        softAssert.assertTrue(status, "Test Case 8:  Login : Failed");
 
         Home homePage = new Home(driver);
         homePage.navigateToHome();
 
         status = homePage.searchForProduct("YONEX");
         status = homePage.addProductToCart("YONEX Smash Badminton Racquet");
-        Assert.assertTrue(status, "Unable to add YONEX Badminton Racquet");
+        softAssert.assertTrue(status, "Unable to add YONEX Badminton Racquet");
         String currentURL = driver.getCurrentUrl();
 
         driver.findElement(By.linkText("Privacy policy")).click();
@@ -59,7 +60,7 @@ public class testCase08 extends BaseTest {
 
         List<String> expectedResult = Arrays.asList("YONEX Smash Badminton Racquet");
         status = homePage.verifyCartContents(expectedResult);
-        Assert.assertTrue(status, "Unable to veify same cart content");
+        softAssert.assertTrue(status, "Unable to veify same cart content");
 
         driver.close();
 
@@ -68,7 +69,8 @@ public class testCase08 extends BaseTest {
         logStatus("End TestCase",
                 "Test Case 8: Verify that product added to cart is available when a new tab is opened",
                 status ? "PASS" : "FAIL");
-       // takeScreenshot(driver, "EndTestCase", "TestCase08");
+        
+        softAssert.assertAll();
     }
 
 }

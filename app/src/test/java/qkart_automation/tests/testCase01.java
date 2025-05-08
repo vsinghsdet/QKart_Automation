@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -23,15 +24,15 @@ public class testCase01 extends BaseTest {
             @Optional("abc@123") String password) throws InterruptedException, IOException {
         WebDriver driver = DriverFactory.getDriver();
         Boolean status;
+        SoftAssert softAssert = new SoftAssert();
         logStatus("Start TestCase", "Test Case 1: Verify User Registration", "DONE");
-        // takeScreenshot(driver, "StartTestCase", "TestCase1");
-        // Wrappers.capture(driver);
+       
 
         // Visit the Registration page and register a new user
         Register registration = new Register(driver);
         registration.navigateToRegisterPage();
         status = registration.registerUser(username, password, true);
-        Assert.assertTrue(status, "Failed to register new user");
+        softAssert.assertTrue(status, "Failed to register new user");
 
         // Save the last generated username
         lastGeneratedUserName = registration.lastGeneratedUsername;
@@ -41,7 +42,7 @@ public class testCase01 extends BaseTest {
         login.navigateToLoginPage();
         status = login.performLogin(lastGeneratedUserName, "abc@123");
         logStatus("Test Step", "User Perform Login: ", status ? "PASS" : "FAIL");
-        Assert.assertTrue(status, "Failed to login with registered user");
+        softAssert.assertTrue(status, "Failed to login with registered user");
 
         // Visit the home page and log out the logged in user
         Home home = new Home(driver);
@@ -49,7 +50,7 @@ public class testCase01 extends BaseTest {
 
         logStatus("End TestCase", "Test Case 1: Verify user Registration : ",
                 status ? "PASS" : "FAIL");
-        //takeScreenshot(driver, "EndTestCase", "TestCase1");
-        //Wrappers.capture(driver);
+        
+        softAssert.assertAll();
     }
 }

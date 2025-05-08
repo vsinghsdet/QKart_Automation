@@ -1,9 +1,14 @@
 package qkart_automation.tests;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -22,6 +27,7 @@ public class testCase07 extends BaseTest {
     public void TestCase07(String productName, int qty, String addressDetails)
             throws InterruptedException {
         Boolean status;
+        SoftAssert softAssert = new SoftAssert();
         WebDriver driver = DriverFactory.getDriver();
         logStatus("Start TestCase",
                 "Test Case 7: Verify that insufficient balance error is thrown when the wallet balance is not enough",
@@ -30,13 +36,13 @@ public class testCase07 extends BaseTest {
         Register registration = new Register(driver);
         registration.navigateToRegisterPage();
         status = registration.registerUser("testUser", "abc@123", true);
-        Assert.assertTrue(status, "Test Case 7: Registration : Failed");
+        softAssert.assertTrue(status, "Test Case 7: Registration : Failed");
         lastGeneratedUserName = registration.lastGeneratedUsername;
 
         Login login = new Login(driver);
         login.navigateToLoginPage();
         status = login.performLogin(lastGeneratedUserName, "abc@123");
-        Assert.assertTrue(status, "Test Case 7:  Login : Failed");
+        softAssert.assertTrue(status, "Test Case 7:  Login : Failed");
 
         Home homePage = new Home(driver);
         homePage.navigateToHome();
@@ -52,14 +58,18 @@ public class testCase07 extends BaseTest {
         checkoutPage.selectAddress(addressDetails);
 
         checkoutPage.placeOrder();
-        Thread.sleep(3000);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.visibilityOf(checkoutPage.alertMessage));
 
         status = checkoutPage.verifyInsufficientBalanceMessage();
-        Assert.assertTrue(status, "Unable to verify insufficient balance message");
+        softAssert.assertTrue(status, "Unable to verify insufficient balance message");
 
         logStatus("End TestCase",
                 "Test Case 7: Verify that insufficient balance error is thrown when the wallet balance is not enough: ",
                 status ? "PASS" : "FAIL");
+        
+        softAssert.assertAll();
     }
 
 }

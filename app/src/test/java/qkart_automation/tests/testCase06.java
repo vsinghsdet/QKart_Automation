@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -26,6 +27,7 @@ public class testCase06 extends BaseTest {
             String addressDetails) throws InterruptedException {
         Boolean status;
         WebDriver driver = DriverFactory.getDriver();
+        SoftAssert softAssert = new SoftAssert();
         logStatus("Start TestCase", "Test Case 6: Verify that cart can be edited", "DONE");
         Home homePage = new Home(driver);
         Register registration = new Register(driver);
@@ -33,13 +35,13 @@ public class testCase06 extends BaseTest {
 
         registration.navigateToRegisterPage();
         status = registration.registerUser("testUser", "abc@123", true);
-        Assert.assertTrue(status, "Test Case 6:  Verify that cart can be edited: Failed");
+        softAssert.assertTrue(status, "Test Case 6:  Verify that cart can be edited: Failed");
 
         lastGeneratedUserName = registration.lastGeneratedUsername;
 
         login.navigateToLoginPage();
         status = login.performLogin(lastGeneratedUserName, "abc@123");
-        Assert.assertTrue(status, "Test Case 6:  Verify that cart can be edited: Failed");
+        softAssert.assertTrue(status, "Test Case 6:  Verify that cart can be edited: Failed");
 
         homePage.navigateToHome();
         status = homePage.searchForProduct("Xtend");
@@ -68,7 +70,7 @@ public class testCase06 extends BaseTest {
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(15));
         status = wait.until(ExpectedConditions
                 .urlToBe("https://crio-qkart-frontend-qa.vercel.app/thanks"));
-        Assert.assertTrue(status, "URL doesn't contains thanks");
+        softAssert.assertTrue(status, "URL doesn't contains thanks");
 
         status = driver.getCurrentUrl().endsWith("/thanks");
         homePage.navigateToHome();
@@ -76,7 +78,8 @@ public class testCase06 extends BaseTest {
 
         logStatus("End TestCase", "Test Case 6: Verify that cart can be edited: ",
                 status ? "PASS" : "FAIL");
-
+        
+        softAssert.assertAll();
     }
 
 }

@@ -34,14 +34,14 @@ public class testCase09 extends BaseTest {
         Register registration = new Register(driver);
         registration.navigateToRegisterPage();
         status = registration.registerUser("testUser", "abc@123", true);
-        Assert.assertTrue(status, "Test Case 9: Registration : Failed");
+        softAssert.assertTrue(status, "Test Case 9: Registration : Failed");
 
         lastGeneratedUserName = registration.lastGeneratedUsername;
 
         Login login = new Login(driver);
         login.navigateToLoginPage();
         status = login.performLogin(lastGeneratedUserName, "abc@123");
-        Assert.assertTrue(status, "Test Case 9: Login : Failed");
+        softAssert.assertTrue(status, "Test Case 9: Login : Failed");
 
         Home homePage = new Home(driver);
         homePage.navigateToHome();
@@ -50,12 +50,12 @@ public class testCase09 extends BaseTest {
 
         driver.findElement(By.linkText("Privacy policy")).click();
         status = driver.getCurrentUrl().equals(basePageURL);
-        Assert.assertTrue(status,
+        softAssert.assertTrue(status,
                 "Verifying parent page url didn't change on privacy policy link click failed");
 
         Set<String> handles = driver.getWindowHandles();
         driver.switchTo().window(handles.toArray(new String[handles.size()])[1]);
-        WebElement PrivacyPolicyHeading = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/h2"));
+        WebElement PrivacyPolicyHeading = driver.findElement(By.tagName("h2"));
         status = PrivacyPolicyHeading.getText().equals("Privacy Policy");
         softAssert.assertTrue(status,
                 "Verifying new tab opened has Privacy Policy page heading failed");
@@ -65,7 +65,7 @@ public class testCase09 extends BaseTest {
 
         handles = driver.getWindowHandles();
         driver.switchTo().window(handles.toArray(new String[handles.size()])[2]);
-        WebElement TOSHeading = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/h2"));
+        WebElement TOSHeading = driver.findElement(By.tagName("h2"));
         status = TOSHeading.getText().equals("Terms of Service");
         softAssert.assertTrue(status,
                 "Verifying new tab opened has Terms Of Service page heading failed");
@@ -78,7 +78,8 @@ public class testCase09 extends BaseTest {
         logStatus("End TestCase",
                 "Test Case 9: Verify that the Privacy Policy, About Us are displayed correctly ",
                 "PASS");
-        //takeScreenshot(driver, "EndTestCase", "TestCase9");
+        
+        softAssert.assertAll();
     }
 
 }

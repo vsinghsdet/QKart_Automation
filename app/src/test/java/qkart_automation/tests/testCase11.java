@@ -1,10 +1,13 @@
 package qkart_automation.tests;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -12,6 +15,7 @@ import org.testng.asserts.SoftAssert;
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
 import qkart_automation.pages.Checkout;
+import qkart_automation.pages.Confirmation;
 import qkart_automation.pages.Home;
 import qkart_automation.pages.Login;
 import qkart_automation.pages.Register;
@@ -55,38 +59,31 @@ public class testCase11 extends BaseTest {
         checkoutPage.addNewAddress("Addr line 1  addr Line 2  addr line 3");
         checkoutPage.selectAddress("Addr line 1  addr Line 2  addr line 3");
         checkoutPage.placeOrder();
-        Thread.sleep(3000);
+      
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains("thanks"));
 
         String currentURL = driver.getCurrentUrl();
 
-        List<WebElement> Advertisements = driver.findElements(By.xpath("//iframe"));
+        Confirmation confirmation = new Confirmation(driver);
 
-        status = Advertisements.size() == 3;
+        status = confirmation.totalNumberofAdervtisements()==3;
         logStatus("Step ", "Verify that 3 Advertisements are available",
                 status ? "PASS" : "FAIL");
 
-        WebElement Advertisement1 = driver.findElement(
-                By.xpath("//*[@id=\"root\"]/div/div[2]/div/iframe[1]"));
-        driver.switchTo().frame(Advertisement1);
-        driver.findElement(By.xpath("//button[text()='Buy Now']")).click();
-        driver.switchTo().parentFrame();
+        WebElement advertisement1 = confirmation.advertisement1;
 
-        status = !driver.getCurrentUrl().equals(currentURL);
-
+        status = confirmation.isAdvertisementClickable(driver, advertisement1);
         softAssert.assertTrue(status, "Advertisemment 1 button is not clickable");
         logStatus("Step ", "Verify that Advertisement 1 is clickable ",
                 status ? "PASS" : "FAIL");
 
         driver.get(currentURL);
-        Thread.sleep(3000);
+        wait.until(ExpectedConditions.urlContains("thanks"));
 
-        WebElement Advertisement2 = driver.findElement(
-                By.xpath("//*[@id=\"root\"]/div/div[2]/div/iframe[2]"));
-        driver.switchTo().frame(Advertisement2);
-        driver.findElement(By.xpath("//button[text()='Buy Now']")).click();
-        driver.switchTo().parentFrame();
+        WebElement advertisement2 = confirmation.advertisement2;
 
-        status = !driver.getCurrentUrl().equals(currentURL);
+        status = confirmation.isAdvertisementClickable(driver, advertisement2);
         softAssert.assertTrue(status, "Advertisemment 1 button is not clickable");
         logStatus("Step ", "Verify that Advertisement 2 is clickable ",
                 status ? "PASS" : "FAIL");

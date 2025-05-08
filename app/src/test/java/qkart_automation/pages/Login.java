@@ -48,7 +48,7 @@ public class Login {
 
         FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
                                     .withTimeout(Duration.ofSeconds(10))
-                                    .pollingEvery(Duration.ofMillis(600))
+                                    .pollingEvery(Duration.ofMillis(500))
                                     .ignoring(NoSuchElementException.class);
         wait.until(ExpectedConditions.invisibilityOf(loginPageLoginButton));
 

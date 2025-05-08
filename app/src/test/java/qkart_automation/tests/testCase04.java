@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -22,6 +23,8 @@ public class testCase04 extends BaseTest {
                 "DONE");
         Boolean status;
         WebDriver driver = DriverFactory.getDriver();
+
+        SoftAssert softAssert = new SoftAssert();
 
         // Visit home page
         Home homePage = new Home(driver);
@@ -46,7 +49,7 @@ public class testCase04 extends BaseTest {
             SearchResult result = new SearchResult(webElement);
 
             // Verify if the size chart exists for the search result
-            Assert.assertTrue(result.verifySizeChartExists(),
+            softAssert.assertTrue(result.verifySizeChartExists(),
                     "Test Case Fail. Size Chart Link does not exist");
 
             logStatus("Step Success",
@@ -55,29 +58,27 @@ public class testCase04 extends BaseTest {
 
             // Verify if size dropdown exists
             status = result.verifyExistenceofSizeDropdown(driver);
-            Assert.assertTrue(status, "Size Drop Down is not present");
+            softAssert.assertTrue(status, "Size Drop Down is not present");
             logStatus("Step Success", "Validated presence of drop down",
                     status ? "PASS" : "FAIL");
 
             // Open the size chart
-            Assert.assertTrue(result.openSizechart(),
+            softAssert.assertTrue(result.openSizechart(),
                     "Test Case Fail. Failure to open Size Chart");
 
             // Verify if the size chart contents matches the expected values
 
-            Assert.assertTrue(
+            softAssert.assertTrue(
                     result.validateSizeChartContents(expectedTableHeaders,
                             expectedTableBody, driver),
                     "Failure while validating contents of Size Chart Link");
 
             // Close the size chart modal
-            Assert.assertTrue(result.closeSizeChart(driver),
+            softAssert.assertTrue(result.closeSizeChart(driver),
                     "Unable to close Size Chart");
-            // logStatus("TestCase 4", "End Test Case: Validated Size Chart Details",
-            // status ?
-            // "PASS" : "FAIL");
-            // return status;
         }
+
+        softAssert.assertAll();
     }
 
 }

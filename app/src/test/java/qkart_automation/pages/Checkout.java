@@ -33,7 +33,7 @@ public class Checkout {
     WebElement placeOrderButton;
 
     @FindBy(id="notistack-snackbar")
-    WebElement alertMessage;
+    public WebElement alertMessage;
 
 
     public Checkout(WebDriver driver){

@@ -34,8 +34,7 @@ public class testCase03 extends BaseTest{
         List<WebElement> searchResults = homePage.getSearchResults();
 
         // Verify the search results are available
-        assert searchResults
-                .size() != 0 : "Test Case Failure. There were no results for the given search string";
+        softAssert.assertTrue(searchResults.size()!=0, "Test Case Failure. There were no results for the given search string");
 
         for (WebElement webElement : searchResults) {
             // Create a SearchResult object from the parent element
@@ -43,7 +42,7 @@ public class testCase03 extends BaseTest{
 
             // Verify that all results contain the searched text
             String elementText = resultelement.getTitleofResult();
-            Assert.assertEquals(true, elementText.toUpperCase().contains("YONEX"),
+            softAssert.assertEquals(true, elementText.toUpperCase().contains("YONEX"),
                     "Test Case Failure. Test Results contains un-expected values: "
                             + elementText);
         }
@@ -57,7 +56,7 @@ public class testCase03 extends BaseTest{
         searchResults = homePage.getSearchResults();
 
         if (searchResults.size() == 0) {
-            Assert.assertTrue(homePage.isNoResultFound(),
+            softAssert.assertTrue(homePage.isNoResultFound(),
                     "Not able to verify No products found message");
             logStatus("TestCase 3",
                     "Test Case PASS. Verified that no search results were found for the given text",

@@ -3,6 +3,7 @@ package qkart_automation.tests;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import qkart_automation.BaseTest;
 import qkart_automation.DriverFactory;
@@ -16,6 +17,7 @@ public class testCase02 extends BaseTest {
     public void TestCase02() throws InterruptedException {
         Boolean status;
         WebDriver driver = DriverFactory.getDriver();
+        SoftAssert softAssert = new SoftAssert();
         logStatus("Start Testcase",
                 "Test Case 2: Verify User Registration with an existing username ",
                 "DONE");
@@ -25,7 +27,7 @@ public class testCase02 extends BaseTest {
         registration.navigateToRegisterPage();
         status = registration.registerUser("testUser", "abc@123", true);
         logStatus("Test Step", "User Registration : ", status ? "PASS" : "FAIL");
-        Assert.assertTrue(status, "Able to register");
+        softAssert.assertTrue(status, "Able to register");
 
         // Save the last generated username
         lastGeneratedUserName = registration.lastGeneratedUsername;
@@ -40,6 +42,7 @@ public class testCase02 extends BaseTest {
         logStatus("End TestCase", "Test Case 2: Verify user Registration : ",
                 status ? "FAIL" : "PASS");
 
+        softAssert.assertAll();
     }
 
 }
