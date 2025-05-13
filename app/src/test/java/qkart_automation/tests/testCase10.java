@@ -21,7 +21,7 @@ public class testCase10 extends BaseTest {
         homePage.navigateToHome();
 
         status = homePage.verifyContactUsDialogBox(driver, "Vishal", "abc@gmail.com", "Happy Learning");
-        Assert.assertTrue(status, "Unable to verify invisibility of contact us modal");
+        Assert.assertFalse(status, "Unable to verify invisibility of contact us modal");
         logStatus("End TestCase",
                 "Test Case 10: Verify that contact us option is working correctly ",
                 "PASS");

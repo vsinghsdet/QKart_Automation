@@ -20,20 +20,8 @@ public class ExtentReportManager {
         return extentTestMap.get();
     }
 
-    public static void logInfo(String info){
-        getExtentTest().log(Status.INFO, info);
-    }
-
-    public static void logPass(String passDescription){
-        getExtentTest().log(Status.PASS, passDescription);
-    }
-
-    public static void logFail(String failDescription){
-        getExtentTest().log(Status.FAIL, failDescription);
-    }
-
-    public static void logSkip(String skipDescription){
-        getExtentTest().log(Status.SKIP, skipDescription);
+    public static void log(Status status, String description){
+        getExtentTest().log(status, description);
     }
 
     public static void endTest(){

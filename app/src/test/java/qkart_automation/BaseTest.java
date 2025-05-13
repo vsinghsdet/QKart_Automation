@@ -37,7 +37,7 @@ public class BaseTest {
     @AfterMethod(alwaysRun = true)
     public void afterTestMethod(ITestResult iTestResult) throws IOException{
         if(iTestResult.getStatus() == ITestResult.SUCCESS){
-            ExtentReportManager.logPass("Test Case Paas");
+            ExtentReportManager.log(Status.PASS, "Test Case Pass");
         }
         else if(iTestResult.getStatus() == ITestResult.FAILURE){
             ExtentReportManager.getExtentTest().log(Status.FAIL, 
@@ -45,7 +45,7 @@ public class BaseTest {
             MediaEntityBuilder.createScreenCaptureFromPath(Wrappers.capture(driver)).build());
         }
         else{
-            ExtentReportManager.logSkip("Test Case Skipped");
+            ExtentReportManager.log(Status.SKIP, "Test Case Skipped");
         }
 
         ExtentReportManager.endTest();

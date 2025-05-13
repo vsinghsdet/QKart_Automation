@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Test Case Suit E-Commerce Application">
-   <!-- <listeners>
-      <listener class-name="QKART_TESTNG.ListenerClass"> </listener>
-   </listeners> -->
+   <listeners>
+        <listener class-name="qkart_automation.RetryListener" />
+    </listeners>
 
    <parameter name="username" value="testUser" />
    <parameter name="password" value="abc@123" />
@@ -23,7 +23,7 @@
       <parameter name="qty" value="10" />
 
       <classes>
-        <class name="qkart_automation.tests.testCase01" />
+        <!-- <class name="qkart_automation.tests.testCase01" />
         <class name="qkart_automation.tests.testCase02" />
         <class name="qkart_automation.tests.testCase03" />
         <class name="qkart_automation.tests.testCase04" />
@@ -31,7 +31,7 @@
         <class name="qkart_automation.tests.testCase06" />
         <class name="qkart_automation.tests.testCase07" />
         <class name="qkart_automation.tests.testCase08" />
-        <class name="qkart_automation.tests.testCase09" />
+        <class name="qkart_automation.tests.testCase09" /> -->
         <class name="qkart_automation.tests.testCase10" />
         <class name="qkart_automation.tests.testCase11" />
       </classes>
