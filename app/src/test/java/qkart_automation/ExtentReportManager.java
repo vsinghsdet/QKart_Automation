@@ -4,6 +4,7 @@ package qkart_automation;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Media;
 
 public class ExtentReportManager {
 
@@ -22,6 +23,10 @@ public class ExtentReportManager {
 
     public static void log(Status status, String description){
         getExtentTest().log(status, description);
+    }
+
+    public static void log(Status status, String description, Media media){
+        getExtentTest().log(status, description, media);
     }
 
     public static void endTest(){

@@ -13,6 +13,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Media;
 
 
 
@@ -40,9 +41,8 @@ public class BaseTest {
             ExtentReportManager.log(Status.PASS, "Test Case Pass");
         }
         else if(iTestResult.getStatus() == ITestResult.FAILURE){
-            ExtentReportManager.getExtentTest().log(Status.FAIL, 
-            "Test Case Failed", 
-            MediaEntityBuilder.createScreenCaptureFromPath(Wrappers.capture(driver)).build());
+            Media media = MediaEntityBuilder.createScreenCaptureFromPath(Wrappers.capture(driver)).build();
+            ExtentReportManager.log(Status.FAIL, "Test Case Failed", media);
         }
         else{
             ExtentReportManager.log(Status.SKIP, "Test Case Skipped");
